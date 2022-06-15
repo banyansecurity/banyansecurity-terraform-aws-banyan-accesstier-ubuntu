@@ -85,6 +85,7 @@ variable "refresh_token" {
 variable "site_domain_names" {
   type        = list(string)
   description = "List of aliases or CNAMEs that will direct traffic to this Access Tier"
+  default     = []
 }
 
 variable "api_server" {
@@ -97,18 +98,6 @@ variable "ssh_key_name" {
   type        = string
   description = "Name of an SSH key stored in AWS to allow management access"
   default     = ""
-}
-
-variable "ami_id" {
-  type        = string
-  description = "ID of a custom AMI to use when creating Access Tier instances (leave blank to use default)"
-  default     = ""
-}
-
-variable "default_ami_name" {
-  type        = string
-  description = "If no AMI ID is supplied, use the most recent AMI from this project"
-  default     = "amzn2-ami-hvm-2.0.*-x86_64-ebs"
 }
 
 variable "cross_zone_enabled" {
@@ -132,7 +121,7 @@ variable "custom_user_data" {
 variable "redirect_http_to_https" {
   type        = bool
   description = "If true, requests to the AccessTier on port 80 will be redirected to port 443"
-  default     = false
+  default     = true
 }
 
 variable "iam_instance_profile" {
