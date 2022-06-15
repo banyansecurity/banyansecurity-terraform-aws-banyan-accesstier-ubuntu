@@ -9,20 +9,19 @@ This module creates an AWS auto-scaling group (ASG) and a network load balancer 
 
 ```hcl
 provider "aws" {
-  region = "us-east-1"
+  region = "us-west-2"
 }
 
 module "aws_accesstier" {
-  source                 = "banyansecurity/banyan-accesstier/aws"
+  source                 = "github.com/banyansecurity/terraform-aws-banyan-accesstier-ubuntu"
   vpc_id                 = "vpc-0e73afd7c24062f0a"
   public_subnet_ids      = ["subnet-09ef9206ca406ffe7", "subnet-0bcb18d59e3ff3cc7"]
   private_subnet_ids     = ["subnet-00e393f22c3f09e16", "subnet-0dfce8195de704b65"]
   cluster_name           = "my-banyan-shield"
   site_name              = "my-banyan-site"
   site_domain_names      = ["*.banyan.mycompany.com"]
-  ssh_key_name           = "my-ssh-key"
+  ssh_key_name           = "my-ssh-key-name"
   refresh_token          = "eyJhbGciOiJSUzI1NiIsIm..."
-  redirect_http_to_https = true
 }
 ```
 
@@ -60,8 +59,8 @@ variable "refresh_token" {
 }
 
 module "aws_accesstier" {
-  source                 = "banyansecurity/banyan-accesstier/aws"
-  refresh_token          = var.refresh_token
+  source                 = "banyansecurity/terraform-aws-banyan-accesstier-ubuntu"
+  refresh_token          = var.refresh_tokenv
   ...
 }
 ```
