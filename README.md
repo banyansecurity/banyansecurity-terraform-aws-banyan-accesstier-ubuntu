@@ -37,7 +37,7 @@ variable "refresh_token" {
 
 module "aws_accesstier" {
   source                 = "banyansecurity/terraform-aws-banyan-accesstier-ubuntu"
-  refresh_token          = var.refresh_tokenv
+  refresh_token          = var.refresh_token
 }
 ```
 
