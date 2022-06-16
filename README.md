@@ -19,7 +19,7 @@ module "aws_accesstier" {
   cluster_name           = "my-banyan-shield"
   site_name              = "my-banyan-site"
   ssh_key_name           = "my-ssh-key"
-  api_server             = "https://preview.console.banyanops.com/api/v1"  
+  api_server             = "https://net.banyanops.com/api/v1"  
   refresh_token          = "eyJhbGciOiJSUzI1NiIsIm..."
 }
 ```
