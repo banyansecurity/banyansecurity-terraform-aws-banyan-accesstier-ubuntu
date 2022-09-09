@@ -16,7 +16,7 @@ data "aws_ami" "ubuntu" {
     name   = "name"
     values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
-  
+
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
@@ -24,9 +24,17 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_security_group" "sg" {
-  name        = "${var.name_prefix}-accesstier-sg-1"
+  name        = "${var.name_prefix}-accesstier-sg"
   description = "Elastic Access Tier ingress traffic"
   vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Web traffic"
+  }
 
   dynamic "ingress" {
     for_each = var.redirect_http_to_https ? [true] : []
@@ -135,7 +143,7 @@ resource "aws_launch_configuration" "conf" {
   image_id        = data.aws_ami.ubuntu.id
   instance_type   = var.instance_type
   key_name        = var.ssh_key_name
-  security_groups = [aws_security_group.sg.id]
+  security_groups = concat([aws_security_group.sg.id], var.member_security_groups)
   ebs_optimized   = true
 
   iam_instance_profile = var.iam_instance_profile
@@ -213,8 +221,8 @@ resource "aws_lb_target_group" "target443" {
   port     = 443
   protocol = "TCP"
   stickiness {
-      enabled = var.sticky_sessions
-      type = "source_ip"
+    enabled = var.sticky_sessions
+    type    = "source_ip"
   }
   health_check {
     port                = 9998
@@ -245,8 +253,8 @@ resource "aws_lb_target_group" "target80" {
   port     = 80
   protocol = "TCP"
   stickiness {
-      enabled = var.sticky_sessions
-      type = "source_ip"
+    enabled = var.sticky_sessions
+    type    = "source_ip"
   }
   health_check {
     port                = 9998
@@ -277,8 +285,8 @@ resource "aws_lb_target_group" "target8443" {
   port     = 8443
   protocol = "TCP"
   stickiness {
-      enabled = var.sticky_sessions
-      type = "source_ip"
+    enabled = var.sticky_sessions
+    type    = "source_ip"
   }
   health_check {
     port                = 9998

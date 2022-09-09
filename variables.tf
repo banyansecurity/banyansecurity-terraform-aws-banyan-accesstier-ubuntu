@@ -137,25 +137,25 @@ variable "tags" {
 }
 
 variable "security_group_tags" {
-  type        = map
+  type        = map(any)
   description = "Additional tags to the security_group"
   default     = null
 }
 
 variable "autoscaling_group_tags" {
-  type        = map
+  type        = map(any)
   description = "Additional tags to the autoscaling_group"
   default     = null
 }
 
 variable "lb_tags" {
-  type        = map
+  type        = map(any)
   description = "Additional tags to the lb"
   default     = null
 }
 
 variable "target_group_tags" {
-  type        = map
+  type        = map(any)
   description = "Additional tags to each target_group"
   default     = null
 }
@@ -223,13 +223,19 @@ variable "http_hop_limit_imds_v2" {
 }
 
 variable "datadog_api_key" {
-    type = string
-    description = "API key for DataDog"
-    default = null
+  type        = string
+  description = "API key for DataDog"
+  default     = null
 }
 
 variable "sticky_sessions" {
-    type = bool
-    description = "Enable session stickiness for apps that require it"
-    default = false
+  type        = bool
+  description = "Enable session stickiness for apps that require it"
+  default     = false
+}
+
+variable "member_security_groups" {
+  type    = list(string)
+  description = "Additional security groups which the access tier shou"
+  default = []
 }
