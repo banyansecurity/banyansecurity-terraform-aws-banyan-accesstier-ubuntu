@@ -78,7 +78,7 @@ resource "aws_security_group" "sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = var.command_center_cidrs
+    cidr_blocks = distinct(concat(var.command_center_cidrs, var.trustprovider_cidrs))
     description = "Command Center"
   }
 
