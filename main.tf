@@ -8,7 +8,7 @@ locals {
   })
 }
 
-data aws_ami "default_ami" {
+data "aws_ami" "default_ami" {
   most_recent = true
   owners      = ["amazon"]
 
@@ -80,14 +80,6 @@ resource "aws_security_group" "sg" {
     protocol    = "tcp"
     cidr_blocks = distinct(concat(var.command_center_cidrs, var.trustprovider_cidrs))
     description = "Command Center"
-  }
-
-  egress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = var.trustprovider_cidrs
-    description = "TrustProvider"
   }
 
   egress {
@@ -213,8 +205,8 @@ resource "aws_lb_target_group" "target443" {
   port     = 443
   protocol = "TCP"
   stickiness {
-      enabled = var.sticky_sessions
-      type = "source_ip"
+    enabled = var.sticky_sessions
+    type    = "source_ip"
   }
   health_check {
     port                = 9998
@@ -245,8 +237,8 @@ resource "aws_lb_target_group" "target80" {
   port     = 80
   protocol = "TCP"
   stickiness {
-      enabled = var.sticky_sessions
-      type = "source_ip"
+    enabled = var.sticky_sessions
+    type    = "source_ip"
   }
   health_check {
     port                = 9998
@@ -277,8 +269,8 @@ resource "aws_lb_target_group" "target8443" {
   port     = 8443
   protocol = "TCP"
   stickiness {
-      enabled = var.sticky_sessions
-      type = "source_ip"
+    enabled = var.sticky_sessions
+    type    = "source_ip"
   }
   health_check {
     port                = 9998
