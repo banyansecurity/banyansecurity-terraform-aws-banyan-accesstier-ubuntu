@@ -244,3 +244,9 @@ variable "sticky_sessions" {
     description = "Enable session stickiness for apps that require it"
     default = false
 }
+
+variable "member_security_groups" {
+  type    = list(string)
+  description = "Additional security groups which the access tier shou"
+  default = []
+}

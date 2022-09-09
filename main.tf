@@ -130,7 +130,7 @@ resource "aws_launch_configuration" "conf" {
   image_id        = var.ami_id != "" ? var.ami_id : data.aws_ami.default_ami.id
   instance_type   = var.instance_type
   key_name        = var.ssh_key_name
-  security_groups = [aws_security_group.sg.id]
+  security_groups = concat([aws_security_group.sg.id], var.member_security_groups)
   ebs_optimized   = true
 
   iam_instance_profile = var.iam_instance_profile
